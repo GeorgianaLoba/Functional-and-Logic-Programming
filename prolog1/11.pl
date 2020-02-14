@@ -1,4 +1,3 @@
-%11
 %a Write a predicate to substitute an element from a list with another
 %element in the list
 %b Write a predicate to create te sublist(lm,...,ln) from the list
