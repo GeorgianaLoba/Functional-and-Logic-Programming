@@ -1,0 +1,86 @@
+;a) Write a function that merges two sorted linear lists and keeps double values.
+;b) Write a function to replace an element E by all elements of a list L1 at all levels of a given list L.
+;c) Write  a  function  to  determines  the  sum  of  two  numbers  in  list  representation,  and  returns 
+; the corresponding  decimal  number, without  transforming  the  representation  of  the  number  from  
+;list  to number.
+;d) Write a function to return the greatest common divisor of all numbers in a linear list.
+
+
+;a 
+
+(defun mergeLists (l1 l2)
+(cond 
+ ((and (null l1) (null l2)) nil)
+ ((null l1) l2)
+ ((null l2) l1)
+ ((< (car l1) (car l2)) (cons (car l1) (mergeLists (cdr l1) l2)))
+ ((> (car l1) (car l2)) (cons (car l2) (mergeLists l1 (cdr l2))))
+ ((= (car l1) (car l2)) (cons (car l1) (mergeLists (cdr l1) l2)))
+)
+)
+
+(print (mergeLists '(1 2 4 6 11) '(5 6 9 15 16 21)))
+
+
+;b
+
+(defun replaceElem (lst el l)
+(cond
+ ((null lst) nil)
+ ((equal (car lst) el) (append l (replaceElem (cdr lst) el l)))
+ (t (cons (car lst) (replaceElem (cdr lst) el l)))))
+
+
+(print (replaceElem '(5 11 2 18 11 9 33 11) '11 '(1 1 1)))
+
+
+;c
+
+
+(defun addLists (l1 l2 carry)
+(cond
+ ((and (and (null l1) (null l2)) (= carry 0)) nil)
+ ((and (and (null l1) (null l2)) (= carry 1)) (list '1) )
+ ((and (null l1) (not (null l2))) (if (< (+ (car l2) carry) 10) (cons (+ (car l2) carry) (addLists l1 (cdr l2) 0)) (cons (mod (+ (car l2) carry) 10) (addLists l1 (cdr l2) 1))))
+ ((and (not (null l1)) (null l2)) (if (< (+ (car l1) carry) 10) (cons (+ (car l1) carry) (addLists (cdr l1) l2 0)) (cons (mod (+ (car l1) carry) 10) (addLists (cdr l1) l2 1))))
+ ((and (not (null l1)) (not (null l2))) (if (< (+ (car l1) (car l2) carry) 10) (cons (+ (car l1) (car l2) carry) (addLists (cdr l1) (cdr l2) 0)) (cons (mod (+ (car l1) (car l2) carry) 10) (addLists (cdr l1) (cdr l2) 1)) ))
+)
+)
+
+
+(defun added (l1 l2)
+(reverse (addLists (reverse l1) (reverse l2) '0))
+)
+
+
+(print (added '(1 6 2 3) '(6 3 4) ))
+(print (added '(1 2 4) '(9 8 2)))
+
+
+
+;d
+
+(defun myGcd (a b)
+(cond 
+ ((and (not (numberp a)) (not (numberp b))) nil)
+ ((not (numberp a)) b)
+ ((not (numberp b)) a)
+ ((= b 0) a)
+ (t (myGcd b (mod a b)))
+)
+)
+
+
+(defun gcdList (lst)
+(cond
+ ((= (length lst) 2) (myGcd (car lst) (cadr lst)))
+ (t (myGcd (car lst) (gcdList (cdr lst))))
+)
+)
+
+
+
+(print (myGcd '8 '12))
+
+(print (gcdList '(24 16 b a 12 c 72)))
+(print (gcdList '(190 s 600 240 g)))

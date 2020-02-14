@@ -1,0 +1,79 @@
+;a)Write a function to return the union of two sets.
+;b)Write a function to return the product of all numerical atoms in a list, at any level.
+;c)Write a function to sort a linear list with keeping the double values.
+;d)Build a list which contains positions of a minimum numeric element from a given linear list.
+
+
+;a
+
+(defun setUnion (l1 l2)
+(cond
+ ((null l1) l2)
+ (T (cons (car l1) (setUnion (cdr l1) l2)))
+)
+)
+
+(print (setUnion '(1 2 3) '(4 5 6)))
+
+
+;b
+
+
+(defun productListAux (lst p)
+(cond
+ ((null lst) p)
+ ((numberp (car lst)) (productListAux (cdr lst) (* p (car lst))))
+ ((listp (car lst)) (productListAux (cdr lst) (* p (productListAux (car lst) 1))))
+ (T (productListAux (cdr lst) p))
+))
+
+
+(defun productList (lst)
+(productListAux lst '1))
+
+(print (productList '(1 a (2 4) b)))
+
+
+;c
+
+
+(defun insertElem (lst el)
+(cond
+ ((null lst) (list el))
+ ((< el  (car lst)) (cons el lst))
+ (T (cons (car lst) (insertElem (cdr lst) el)))))
+
+(defun sortByInsertion (lst)
+(cond
+ ((null lst) nil)
+ (T (insertElem (sortByInsertion (cdr lst)) (car lst)))))
+
+
+(print (sortByInsertion '(2 5 1 4 1 6 4 8 11 4 7)))
+
+
+
+;d
+
+
+(defun findMinLst (lst current)
+(cond
+ ((null lst) current)
+ ((> current (car lst)) (findMinLst (cdr lst) (car lst)))
+ (T (findMinLst (cdr lst) current))))
+
+
+
+(defun getListPositionsAux (lst min index collector)
+(cond
+ ((null lst) (reverse collector))
+ ((= (car lst) min) (getListPositionsAux (cdr lst) min (+ index 1) (cons index collector)))
+ (t (getListPositionsAux (cdr lst) min (+ index 1) collector))
+)
+)
+
+
+(defun getListPositions (lst)
+(getListPositionsAux lst (findMinLst lst (car lst)) '1 nil))
+
+(print (getListPositions '(3 2 5 6 2 7 7 2 3 9)))

@@ -1,0 +1,95 @@
+;a)A linear list is given. Eliminate from the list all elements from N to N steps, N-given.
+;b)Write a function to test  if a linear  list of  integer  numbers has a "valley"  aspect 
+;(a list  has a  valley aspect  if  the  items  decrease  to  a  certain  point  and  then  increase. 
+; Eg.  10  8  6  17  19  20).  A  list  must have at least 3 elements to fullfill this condition.
+;c)Build a function that returns the minimum numeric atom from a list, at any level.
+;d)Write a function that deletes from a linear list of all occurrences of the maximum element
+
+
+;a
+
+(defun eliminateNthAux (lst index n)
+(cond
+ ((null lst) nil)
+ ((= index n) (eliminateNthAux (cdr lst) 1 n))
+ (t (cons (car lst) (eliminateNthAux (cdr lst) (+ index 1) n)))
+)
+)
+
+
+(defun eliminateNth (lst n)
+(eliminateNthAux lst 1 n))
+
+
+(print (eliminateNth '(1 2 3 4 5 6 7 8 9) '2))
+
+
+;b 
+
+
+(defun valleyAux (lst decreasing)
+(cond
+ ((= (length lst) 1) (if decreasing nil T))
+ ((and (> (car lst) (cadr lst)) (not decreasing)) nil)
+ ((and (< (car lst) (cadr lst)) decreasing) (valleyAux (cdr lst) nil))
+ (T (valleyAux (cdr lst) decreasing))
+)
+)
+
+(defun valley (lst)
+(cond
+ ((if (< (length lst) 3) nil (valleyAux lst T)))))
+
+
+(print (valley '(5 4 3 4)))
+
+
+;c
+
+(defun findMinAux (lst current)
+(cond
+ ((null lst) current)
+ ((and (numberp (car lst)) (< (car lst) current)) (findMinAux (cdr lst) (car lst)))
+ ((and (numberp (car lst)) (> (car lst) current)) (findMinAux (cdr lst) current))
+ ((listp (car lst)) (findMinAux (cdr lst) (findMinAux (car lst) current)))
+ (t (findMinAux (cdr lst) current))
+))
+
+
+(defun findMin (lst)
+(findMinAux lst (car lst)))
+
+
+(print (findMin '(9 2 (5 s b (1 b)) d 2 2 5 (7) )))
+
+
+;d
+
+
+(defun findMaxAux (lst current)
+(cond
+ ((null lst) current)
+ ((and (numberp (car lst)) (> (car lst) current)) (findMaxAux (cdr lst) (car lst)))
+ ((and (numberp (car lst)) (< (car lst) current)) (findMaxAux (cdr lst) current))
+ ((listp (car lst)) (findMaxAux (cdr lst) (findMaxAux (car lst) current)))
+ (t (findMaxAux (cdr lst) current))
+))
+
+
+(defun findMax (lst)
+(findMaxAux lst (car lst)))
+
+
+
+(defun remOcc (lst el)
+(cond
+ ((null lst) nil)
+ ((equal (car lst) el) (remOcc (cdr lst) el))
+ (t (cons (car lst) (remOcc (cdr lst) el)))))
+
+
+(defun remMaxFromLst (lst)
+(remOcc lst (findMax lst)))
+
+
+(print (remMaxFromLst '(1 2 4 2 5 9 3 5 6 9 2 4 5 9)))

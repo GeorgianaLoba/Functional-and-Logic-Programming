@@ -1,0 +1,79 @@
+;a) Write a function to insert an element E on the n-th position of a linear list.
+;b) Write a function to return the sum of all numerical atoms of a list, at any level.
+;c) Write a function to return the set of all sublists of a given linear list. 
+;Ex. For list ((1 2 3) ((4 5) 6)) => ((1 2 3) (4 5) ((4 5) 6)) 
+;d) Write a function to test the equality of two sets, without using the difference of two sets
+
+
+;a
+
+
+(defun insertNth (lst el n)
+(cond
+ ((null lst) nil)
+ ((= n 1) (cons el (cons (car lst) (insertNth (cdr lst) el (- n 1 )))))
+ ((/= n 1) (cons (car lst) (insertNth (cdr lst) el (- n 1))))
+)
+)
+
+(print (insertNth '(1 2 3 4 5 6) '10 '2))
+(print (insertNth '(1 1 1 1) '100 '1))
+
+
+;b
+
+
+(defun sumElemsAux (lst sum)
+(cond
+ ((null lst) sum)
+ ((atom (car lst)) (sumElemsAux (cdr lst) (+ sum (car lst))))
+ ((listp (car lst)) (sumElemsAux (cdr lst) (+ sum (sumElemsAux (car lst) '0))))
+)
+)
+
+
+(defun sumElems (lst)
+(sumElemsAux lst '0))
+
+
+(print (sumElems '(1 2 3 4 5)))
+(print (sumElems '(1 (2 3 (4)) 5)))
+(print (sumElems '(1 1 1 (2 4))))
+
+
+;c
+
+(defun getSublists (lst)
+(cond 
+ ((null lst) nil)
+ ((listp (car lst)) (append (list (car lst)) (getSublists (car lst)) (getSublists (cdr lst))))
+ (T (getSublists (cdr lst)))))
+
+
+(print (getSublists '((1 2 3)((4 5) 6))))
+
+
+;d
+
+(defun removeElem (lst el)
+(cond
+ ((null lst) nil)
+ ((equal el (car lst)) (removeElem (cdr lst) el))
+ (T (cons (car lst) (removeElem (cdr lst) el)))
+)
+)
+
+
+(defun testEquality (l1 l2)
+(cond
+ ((and (null l1) (null l2)) T)
+ ((or (null l1) (null l2)) nil)
+ (T (testEquality (cdr l1) (removeElem l2 (car l1))))
+)
+)
+
+
+
+(print (testEquality '(1 2 3) '(1 2 3)))
+(print (testEquality '(2 1 4) '(2 4 1)))
+(print (testEquality '(1 2 3 5 6) '(5 2 3 4 1)))
