@@ -1,0 +1,16 @@
+;Write a function that returns the sum of numeric atoms in a list, at any level.
+
+
+(defun mySum (el)
+(cond
+ ((null el) 0)
+ ((numberp el) el)
+ ((atom el) 0)
+ (t (apply #'+ (mapcar #' (lambda (a) (mySum a)) el)))))
+
+
+(print (mySum '(1 2 3)))
+(print (mySum '(1 a 2 (3) m g (s s (7 8 (2))))))
+
+
+

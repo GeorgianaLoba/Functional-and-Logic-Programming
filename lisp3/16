@@ -1,0 +1,14 @@
+;Write a function that produces the linear list of all atoms of a given list, from
+;all levels, and written in the same order.Eg.: (((A B) C) (D E)) --> (A B C D E)
+
+
+(defun flatten (x)
+(cond
+ ((atom x) (list x))
+ (t (apply #'append (mapcar #'flatten x)))
+)
+)
+
+
+(print (flatten '(A (B C))))
+(print (flatten '(((A B) C) (D E))))

@@ -1,0 +1,15 @@
+;Write a function that returns the product of numeric atoms in a list, at any level.
+
+
+(defun myProduct (el)
+(cond
+ ((null el) 1)
+ ((numberp el) el)
+ ((atom el) 1)
+ (t (apply #'* (mapcar #'myProduct el)))
+)
+)
+
+
+(print (myProduct '(1 2 3)))
+(print (myProduct '(1 (2 4 (6) 2)) ))

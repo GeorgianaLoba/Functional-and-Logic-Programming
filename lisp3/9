@@ -1,0 +1,26 @@
+;Write a function that removes all occurrences of an atom from any level of a list.
+
+
+(defun remOccAux (x el)
+(cond
+ ((and (atom x) (equal x el)) nil)
+ ((atom x) x)
+ (t (mapcar #'(lambda (a) (remOccAux a el)) x))
+)
+)
+
+
+(defun myReduce (lst)
+(cond
+ ((null lst) nil)
+ ((and (atom (car lst))(equal (car lst) nil)) (myReduce (cdr lst)))
+ ((atom (car lst)) (cons (car lst) (myReduce (cdr lst))))
+ ((listp (car lst)) (cons (myReduce (car lst)) (myReduce (cdr lst))))
+)
+)
+
+
+(defun remOcc (x el)
+(myReduce (remOccAux x el)))
+
+(print (remOcc '(1 2 a (2 b (2 5 s (d ))) p 2) '2) )

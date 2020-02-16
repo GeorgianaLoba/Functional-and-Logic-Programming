@@ -1,0 +1,15 @@
+;Write a function that returns the maximum of numeric atoms in a list,at any level.
+
+
+(defun myMax (x)
+(cond 
+ ((null x) 0)
+ ((numberp x) x)
+ ((atom x) 0)
+ (t (apply #'max (mapcar #'myMax x)))
+)
+)
+
+
+(print (myMax '(1 2 (6 b) 2 (11 b) (5 2 a (6))) ))
+

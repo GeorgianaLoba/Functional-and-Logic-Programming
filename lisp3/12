@@ -1,0 +1,13 @@
+;Write a function that substitutes an element through another one at all levels of a given list.
+
+
+(defun mySubstitute (x el r)
+(cond
+ ((and (atom x) (equal x el)) r)
+ ((atom x) x)
+ (t (mapcar #'(lambda (a) (mySubstitute a el r)) x))
+)
+)
+
+
+(print (mySubstitute '(1 (2 x r (4 (5) x 2) (2 (2)))) '2 '100))

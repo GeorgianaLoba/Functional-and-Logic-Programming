@@ -1,0 +1,11 @@
+;Write a function that reverses a list together with all its sublists elements, at any level.
+
+(defun myReverse (x)
+(cond
+ ((atom x) x)
+ (t (reverse (mapcar #'myReverse x)))
+)
+)
+
+(print (myReverse '(1 2 (3 5 (6 ) 7 8))))
+

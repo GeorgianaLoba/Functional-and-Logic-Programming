@@ -1,0 +1,12 @@
+;Write a function that returns the number of atoms in a list, at any level.
+
+
+(defun numberAtoms (x)
+(cond
+ ((atom x) 1)
+ (t (apply #'+ (mapcar #'numberAtoms x)))
+)
+)
+
+
+(print (numberAtoms '(1 s (e z))))

@@ -1,0 +1,17 @@
+;Write a function that computes the sum of even numbers and the decrease the sum of
+;odd numbers, at any level of a list.
+
+
+(defun specialCalc (el)
+(cond
+ ((null el) 0)
+ ((and (numberp el) (evenp el)) el)
+ ((and (numberp el) (oddp el)) (- el))
+ ((atom el) 0)
+ (t (apply #'+ (mapcar #'specialCalc el)))
+)
+)
+
+
+
+(print (specialCalc '(1 2 (5 3))))

@@ -1,0 +1,16 @@
+;Write a function that substitutes an element E with all elements of a 
+;list L1 at all levels of a given list L.
+
+
+(defun mySubstitute (x e l1)
+(cond
+ ((equal x e) l1)
+ ((atom x) x)
+ (t (apply #'list (mapcar #'(lambda (a) (mySubstitute a e l1)) x)))
+)
+)
+
+
+
+(print (mySubstitute '(1 2 a 2 3 (a 3) 1 2 (3 1 2 (1 (2)))) '3 '(100 100)))
+    

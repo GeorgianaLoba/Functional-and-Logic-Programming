@@ -1,0 +1,19 @@
+;Define   a   function   to tests   the   membership   of   a   node   in   a  
+; n-tree represented   as   (root list_of_nodes_subtree1 ... list_of_nodes_subtreen) 
+;Eg. tree is (a (b (c)) (d) (E (f))) and the node is "b" => true
+
+
+(defun hasNode (x el)
+(cond
+ ((null x) nil)
+ ((and (equal x el) (atom x)) t)
+ ((atom x) nil)
+ (t (reduce #' (lambda (a b) (or a b)) (mapcar #'(lambda (a) (hasNode a el)) x)))
+)
+)
+
+
+
+
+(print (hasNode '(a (b (c)) (d) (e (f))) 'b))
+(print (hasNode '(a (b (c)) (d) (e (f))) 'z))

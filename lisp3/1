@@ -1,0 +1,18 @@
+;Write a function to check if an atom is member of a list (the list is non-liniar)
+
+(defun contains (lst el)
+(cond
+ ((null lst) 0)
+ ((and (atom lst) (equal lst el)) 1)
+ ((atom lst) 0)
+ (t (apply #'+ (mapcar #' (lambda (a) (contains a el)) lst)))
+)
+)
+
+
+(print (contains '(1 2 3 4 5) '5))
+(print (contains '(2 4 (5 2 d 6 (y 5) 4)) '6))
+
+
+
+

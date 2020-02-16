@@ -1,0 +1,10 @@
+;Write a function to determine the depth of a list
+
+
+(defun findDepth (x)
+(cond
+ ((atom x) 0)
+ (t (+ 1 (apply 'max (mapcar 'findDepth x))))))
+
+
+(print (findDepth '(1 2 3 (4) 4)))
