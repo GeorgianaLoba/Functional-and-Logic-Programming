@@ -1,0 +1,16 @@
+;A nonlinear list is given. Write a function to return as result the initial list in which
+;the atoms from the level k from the initial list have been replaced with 0 (superficial
+;level is considered 1). Use a MAP function.
+; eg.: (a (1 (2 b))(c (d))) k=2 => (a (0 (2 b))(0 (d)))
+
+
+(defun removeOnLevel (x k index)
+(cond
+ ((and (equal k index) (atom x)) 0)
+ ((atom x) x)
+ (t (mapcar  #'(lambda (a) (removeOnLevel a k (+ index 1))) x))
+)
+)
+
+
+(print (removeOnLevel '(a (1 (2 b)) (c (d))) '2 '0))
