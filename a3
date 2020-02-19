@@ -1,0 +1,22 @@
+;A non-linear list is given. Write a function to remove all numeric atoms divisible with 3 from 
+;all levels. Use a MAP function.
+;eg.: (1 (2 A (3 A)) (6)) => (1 (2 A (A)) NIL)
+;     (1 (2 (C))) => (1 (2 (C)))
+
+
+(defun removeSpecificAux (x)
+(cond
+ ((and (numberp x) (equal (mod x 3) 0)) nil)
+; ((and (numberp x) (not (equal (mod x 3) 0))) (list x))
+ ((atom x) (list x))
+; (t (list (apply #'append (mapcar #'removeSpecificAux x))))
+ (t (list (mapcan #'removeSpecificAux x)))
+)
+)
+
+(defun removeSpecific (x)
+(car (removeSpecificAux x)))
+
+
+(print (removeSpecific '(1 (2 (C)))))
+(print (removeSpecific '(1 (2 A (3 A)) (6))))
