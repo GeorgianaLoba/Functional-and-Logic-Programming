@@ -1,0 +1,15 @@
+;An n-ary tree represented as (root subtree1 subtree2 ... )
+;Write a funcion to replace all nodes from the odd levels in the tree with a given value e.
+;The level of root is considered 0. Use a map function.
+;eg (a (b (g)) (c (d (e)) (f))) and e=h => (a (h (g)) (h (d (h)) (f)))
+
+(defun myReplace (x el lvl)
+(cond
+ ((and (oddp lvl) (atom x)) el)
+ ((and (evenp lvl) (atom x)) x)
+ (t (mapcar #'(lambda (a) (myReplace a el (+ lvl 1)) ) x))
+)
+)
+
+
+(print (myReplace '(a (b (g)) (c (d (e)) (f))) 'h '-1))
